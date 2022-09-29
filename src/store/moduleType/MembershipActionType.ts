@@ -1,0 +1,7 @@
+enum MembershipActionType {
+    MEMBERSHIP_LIST='MEMBERSHIP_LIST',
+    MEMBERSHIP_DETAIL_VIEW='MEMBERSHIP_DETAIL_VIEW',
+    POINT_HISTORY_LIST='POINT_HISTORY_LIST'
+}
+
+export {MembershipActionType};

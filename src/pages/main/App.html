@@ -1,0 +1,19 @@
+<component :is="layout">
+  <pwd-change-popup
+          ref="pwdChangePopup"
+          v-if="isPwdPopupChk"
+          @close="onPwdPopupClose"
+          @confirm="onPwdChangeClick"></pwd-change-popup>
+  <notice-popup
+          :msg="modalMsg"
+          :is-open="isNoticePopup"
+          @confirm="onNoticePopupClick"
+          @change="isNoticePopup=false"></notice-popup>
+
+  <div class="loading-dim"  v-if="isLoadingModel">
+    <p class="loading-comment">데이터 로딩 중입니다.</p>
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+</component>
+
+

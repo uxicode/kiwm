@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+//    "target": "esnext",
+//    "module": "esnext",
+    "target": "es5",
+    "module": "commonjs",
+    "downlevelIteration": true,
+    "declaration": true, // lib 만들 때 .d.ts 파일을 자동으로
+    "declarationDir": "./types", // 이 폴더에 만들어주는 옵션
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "allowJs": true, // 타입스크립트 컴파일 작업을 진행할 때 자바스크립트 파일의 포함 여부를 설정하는 옵션
+    "typeRoots": [
+      "es6-promise",
+      "./node_modules/@types"
+    ],
+    "types": [
+      "webpack-env"
+    ],
+    "paths": {
+      "@/*": ["src/*"],
+      "*": ["types/*"]
+    },
+    "lib": [  // - 타입스크립트 파일을 자바스크립트 파일로 컴파일 할 때 포함될 라이브러리 목록
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    // - 타입스크립트는 기본적으로 node_modules 를 제외하지만 써드 파티 라이브러리의 타입을 정의해놓는 @types 디렉토리는 컴파일에 포함함
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+  ],
+  "exclude": [ // include와 반대로 컴파일 제외할 디렉토리를 지정
+    "node_modules"
+  ]
+}

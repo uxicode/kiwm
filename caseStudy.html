@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiwoom admin</title>
+<link rel="stylesheet" href="docs/base.css"><style>
+    h1{font-size:60px;margin:1em 0;}
+    body{font-size:14px;}
+    blockquote>p{font-size:16px;}
+    .lnb-container{overflow-y:auto;overflow-x:hidden;position:fixed;left:0;top:0;width: 300px;height: 100vh;color: #fff;background: linear-gradient(0deg,#5768f3,#1c45ef);}
+    .btn-shortcut{display:block;padding:15px 12px 15px 20px;text-indent:0;line-height:1;font-size:14px;color:#fff;background-color:transparent;border-bottom: 1px solid rgba(255, 255, 255, 0.1);transition:all 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);}
+    .btn-shortcut:hover, .btn-shortcut.active{padding:20px 12px 18px 20px;text-indent:3px;text-decoration: none;color:#333;background-color:#fff;box-shadow:inset 0 -3px 10px 0 rgba(0, 0, 0, 0.12);border-bottom: 0;}
+    .btn-top{z-index: 20;position:fixed;bottom:46px;right:50%;margin-right:-45%;}
+    .btn-top>a{display:block;width:66px; height:66px; border-radius: 50%; border: 1px solid #dedede;} 
+    .btn-top>a:hover{text-decoration: none;}
+    .btn-top>a:before{content:'↑';padding:0 18px;font-size:50px;color:#337ab7;}
+    .aver-table{width: 100%;margin-top:100px;text-align:center;border-top:2px solid #dedede;}
+    .aver-table th{text-align:center;}
+    .blind{  visibility: hidden; position: absolute; font-size: 0; width: 0; height: 0; line-height: 0;}
+    .container{margin:0 0 180px 350px;}
+    tr.del-status{background-color:#666;}
+</style>
+<script src="docs/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+<header id="topMove"></header>
+<div class="container"><h1 id="kiwoom_admin">kiwoom_admin</h1>
+<h2 id="&#xD504;&#xB860;&#xD2B8;&#xC5D4;&#xB4DC;">&#xD504;&#xB860;&#xD2B8;&#xC5D4;&#xB4DC;</h2>
+<ul>
+<li>&#xD654;&#xBA74; &#xB85C;&#xC9C1;&#xC744; &#xC124;&#xACC4;, &#xAD6C;&#xD604;&#xD558;&#xACE0; &#xD504;&#xB85C;&#xD1A0;&#xD0C0;&#xC774;&#xD551;&#xC744; &#xD558;&#xC5EC; &#xAC00;&#xB2A5;&#xC131; &#xD655;&#xC778;&#xD55C; &#xB2E4;&#xC74C; &#xD14C;&#xC2A4;&#xD2B8;&#xB97C; &#xD574;&#xC11C;
+UI &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC791;&#xC131;, &#xD1B5;&#xC2E0; API &#xB97C; &#xC791;&#xC131;. &#xAC1C;&#xBC1C;/&#xAE30;&#xD68D;/&#xB514;&#xC790;&#xC778; &#xC18C;&#xD1B5; &#xCC3D;&#xAD6C; &#xC5ED;&#xD65C;
+&#xC131;&#xB2A5; &#xCD5C;&#xC801;&#xD654;&#xB3C4; &#xC9C4;&#xD589;.
+&#xD504;&#xB860;&#xD2B8;&#xC5D4;&#xB4DC; &#xB3C4;&#xAD6C;&#xC758; &#xB2E4;&#xC591;&#xD654;</li>
+</ul>
+<h2 id="&#xC8FC;&#xC758;-&#xC0AC;&#xD56D;">&#xC8FC;&#xC758; &#xC0AC;&#xD56D;</h2>
+<h3 id="1-get--&#xBA54;&#xC11C;&#xB4DC;&#xB85C;-&#xB370;&#xC774;&#xD130;-&#xB9AC;&#xD3EC;&#xB9F7;">1. get  &#xBA54;&#xC11C;&#xB4DC;&#xB85C; &#xB370;&#xC774;&#xD130; &#xB9AC;&#xD3EC;&#xB9F7;</h3>
+<ul>
+<li>html &#xC5D0;&#xC11C; &#xB370;&#xC774;&#xD130; &#xBC14;&#xC778;&#xB529;&#xC2DC; get  &#xBA54;&#xC11C;&#xB4DC;&#xB85C; &#xB370;&#xC774;&#xD130; &#xB9AC;&#xD3EC;&#xB9F7;&#xD558;&#xB294; &#xBE44;&#xAD6C;&#xC870;&#xD654; &#xD560;&#xB2F9; ( &#xB514;&#xC2A4;&#xD2B8;&#xB7ED;&#xCC98;&#xB9C1; ) &#xC8FC;&#xC758; <blockquote>
+<p>GeneralEventDetail.ts &#xC608;&#xC2DC;</p>
+</blockquote>
+</li>
+</ul>
+<pre><code>get eventDetailModel() {
+        //&#xBC18;&#xB4DC;&#xC2DC; &#xD574;&#xB2F9; &#xC0C1;&#xC138;&#xB370;&#xC774;&#xD130;&#xB97C; &#xB85C;&#xB4DC;&#xD558;&#xACE0;&#xC790; &#xD560;&#xB54C; null &#xCCB4;&#xD06C; &#xD6C4;&#xC5D0; &#xD574;&#xC57C; &#xD55C;&#xB2E4;.
+        if(this.eventDetailData ){
+            let {image, image2, caution, content, contentImages, period, subtitle, title, item, point}=this.eventDetailData;
+            // console.log( image );
+            // @ts-ignore
+            if(contentImages === &apos;&apos;){
+                contentImages=[];
+            }
+
+            // console.log( point, typeof point);
+            if (typeof point ===&apos;string&apos;) {
+                if (point === &apos;&apos;) {
+                    point=0;
+                }
+            }
+            //&#xC774;&#xBBF8;&#xC9C0; &#xCF54;&#xB4DC; id &#xAC00; &#xC788;&#xB294; &#xACBD;&#xC6B0;&#xC5D0;&#xB9CC; &#xC2E4;&#xD589;.
+            if (image) {
+                //&#xC0C1;&#xC138; &#xB370;&#xC774;&#xD130; &#xB85C;&#xB4DC; &#xC2DC;&#xC810;&#xC5D0; &#xBBF8;&#xB9AC; &#xC774;&#xBBF8;&#xC9C0;&#xB97C; &#xC8FC;&#xC18C;&#xAC12;&#xC744; &#xB4F1;&#xB85D;&#xD574; &#xB454;&#xB2E4;. &#xADF8;&#xB798;&#xC57C; this.imgFileService.getItem &#xC73C;&#xB85C; &#xC774;&#xBBF8;&#xC9C0;&#xC8FC;&#xC18C;&#xAC12; &#xD638;&#xCD9C;&#xC774; &#xAC00;&#xB2A5;&#xD558;&#xB2E4;.
+                this.imgFileService.setAttachItems( {url: this.getImage(image), key:DataProviderType.FILE_APPEND_KEY} );
+            }
+            //&#xD32C;&#xCEE4;&#xBBA4;&#xB2C8;&#xD2F0; &#xC774;&#xBBF8;&#xC9C0; &#xCF54;&#xB4DC; id &#xAC00; &#xC788;&#xB294; &#xACBD;&#xC6B0;&#xC5D0;&#xB9CC; &#xC2E4;&#xD589;.
+            if (image2) {
+                //&#xC0C1;&#xC138; &#xB370;&#xC774;&#xD130; &#xB85C;&#xB4DC; &#xC2DC;&#xC810;&#xC5D0; &#xBBF8;&#xB9AC; &#xC774;&#xBBF8;&#xC9C0;&#xB97C; &#xC8FC;&#xC18C;&#xAC12;&#xC744; &#xB4F1;&#xB85D;&#xD574; &#xB454;&#xB2E4;. &#xADF8;&#xB798;&#xC57C; this.imgFileService.getItem &#xC73C;&#xB85C; &#xC774;&#xBBF8;&#xC9C0;&#xC8FC;&#xC18C;&#xAC12; &#xD638;&#xCD9C;&#xC774; &#xAC00;&#xB2A5;&#xD558;&#xB2E4;.
+                this.fanImgFileService.setAttachItems( {url: this.getImage(image2), key:DataProviderType.FILE_APPEND_KEY} );
+            }
+
+            //&#xACBD;&#xD488;&#xC774; &#xC788;&#xB294; &#xACBD;&#xC6B0; &#xB300;&#xC785;&#xD558;&#xC5EC; &#xCD08;&#xAE30;&#xD654;.
+            if (item) {
+                this.selectedGiftItem=item as IGift;
+                this.formInfo={ ...this.formInfo, ...{ itemSeq: item.itemSeq } };
+            }else{
+                this.formInfo={ ...this.formInfo, ...{ itemSeq: 0 } };
+            }
+
+            //&#xC218;&#xC815; &#xAC00;&#xB2A5;&#xD55C; &#xBAA9;&#xB85D;&#xB4E4;&#xB9CC; &#xBCC4;&#xB3C4;&#xB85C; &#xC120;&#xBCC4;. &#xACBD;&#xD488; &#xBAA9;&#xB85D; &#xB118;&#xBC84;( itemSeq ) &#xC740; &#xC218;&#xC815; &#xBAA9;&#xB85D;&#xC5D0; root &#xB85C; &#xC874;&#xC7AC;&#xD558;&#xACE0;
+            //&#xC0C1;&#xC138;&#xD398;&#xC774;&#xC9C0; &#xB370;&#xC774;&#xD130;( eventDetailData) &#xC5D0;&#xC11C;&#xB294; item &#xC548;&#xC5D0; itemSeq &#xAC00; &#xC874;&#xC7AC;&#xD55C;&#xB2E4;.
+            this.formInfo={ ...this.formInfo, ...{image, image2, caution, content, contentImages:contentImages, period, subtitle, title,  point: point}  };
+        }
+        return this.eventDetailData;
+    }
+</code></pre>
+<blockquote>
+<p>GeneralEventDetail.html</p>
+</blockquote>
+<pre><code>//&#xC544;&#xB798;&#xCC98;&#xB7FC; &#xC0C1;&#xC138; &#xD654;&#xBA74; &#xB178;&#xCD9C;&#xD560; &#xB54C; &#xD55C;&#xBC88; &#xC815;&#xB3C4; &#xC2E4;&#xD589;&#xD558;&#xB294; &#xAC83;&#xC740; &#xAD1C;&#xCC2E;&#xC73C;&#xB098; &#xC5EC;&#xB7EC;&#xBC88; &#xC2E4;&#xD589;&#xC2DC; get &#xBA54;&#xC11C;&#xB4DC;&#xC778; eventDetailModel &#xB0B4;&#xBD80;&#xC5D0; 
+//&#xB370;&#xC774;&#xD130; &#xB36E;&#xC5B4;&#xC4F0;&#xAE30; &#xCD08;&#xAE30;&#xD654;&#xAC00; &#xC5EC;&#xB7EC;&#xBC88; &#xD638;&#xCD9C; &#xB418;&#xC5B4; &#xC785;&#xB825;&#xB418;&#xC5C8;&#xB358; &#xB370;&#xC774;&#xD130;&#xAC00; &#xCD08;&#xAE30;&#xD654;&#xB420; &#xC6B0;&#xB824;&#xAC00; &#xB192;&#xB2E4;.
+&lt;card-view body-add-class=&quot;form-type&quot;  v-if=&quot;eventDetailModel!==null&quot;&gt;
+......&#xC911;&#xB7B5;...............
+&lt;/card&gt;
+</code></pre>
+<hr>
+<h3 id="2-axios-&#xC774;&#xC6A9;&#xC2DC;-content-disposition-&#xB204;&#xB77D;-&#xB418;&#xB294;-&#xD604;&#xC0C1;">2. Axios &#xC774;&#xC6A9;&#xC2DC; Content-disposition &#xB204;&#xB77D; &#xB418;&#xB294; &#xD604;&#xC0C1;.</h3>
+<ul>
+<li>Axios&#xB97C; &#xC774;&#xC6A9;&#xD574; &#xD30C;&#xC77C;&#xB2E4;&#xC6B4;&#xB85C;&#xB4DC; &#xBAA8;&#xB4C8; &#xC81C;&#xC791;&#xC911; &#xC11C;&#xBC84;&#xC5D0;&#xC11C; &#xBC1B;&#xC544;&#xC628; &#xD30C;&#xC77C;&#xBA85;&#xC744; &#xCC98;&#xB9AC;&#xD558;&#xB358;&#xC911;&#xC5D0; 
+&#xC11C;&#xBC84;&#xC5D0;&#xC11C; Content-disposition &#xD5E4;&#xB354;&#xB97C; &#xBC1B;&#xC558;&#xB294;&#xB370; Axios&#xC758; Response &#xAC1D;&#xCCB4;&#xC5D0;&#xB294; &#xB2F4;&#xACA8;&#xC788;&#xC9C0; &#xC54A;&#xB294; &#xC774;&#xC288;</li>
+<li>-&gt; CORS &#xC774;&#xC288;&#xC774;&#xBA70;, &#xC11C;&#xBC84;&#xC5D0;&#xC11C; &#xC791;&#xC5C5;&#xC744; &#xC218;&#xD589;&#xD574; &#xC918;&#xC57C; &#xD55C;&#xB2E4;.</li>
+</ul>
+<h4 id="-java-spring-boot--&#xD658;&#xACBD;">[ Java (Spring-Boot) ] &#xD658;&#xACBD;</h4>
+<p><code>@CrossOrigin(value = {&quot;*&quot;}, exposedHeaders = {&quot;Content-Disposition&quot;})</code></p>
+<h4 id="-nodejs--express--cors--&#xD658;&#xACBD;">[ node.js + express + cors ] &#xD658;&#xACBD;</h4>
+<pre><code>app.use(cors({
+  origin: &apos;http://localhost:8080&apos;,
+  credentials: true,
+  exposedHeaders: [&apos;Content-Disposition&apos;]
+}))
+</code></pre>
+<hr>
+<h3 id="3-html5-history-mode-&#xC5D0;&#xC11C;-nginx-&#xC124;&#xC815;&#xBC95;">3. HTML5 History Mode &#xC5D0;&#xC11C; Nginx &#xC124;&#xC815;&#xBC95;</h3>
+<ul>
+<li><a href="https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations">https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations</a></li>
+</ul>
+<p><strong>nginx</strong></p>
+<pre><code>location / {
+try_files $uri $uri/ /index.html;
+}
+</code></pre>
+<hr>
+<h3 id="4-env-&#xD30C;&#xC77C;-&#xC124;&#xC815;">4. .env &#xD30C;&#xC77C; &#xC124;&#xC815;.</h3>
+<ul>
+<li>.env &#xD30C;&#xC77C; &#xD658;&#xACBD; &#xBCC0;&#xC218;&#xB294; &#xBB34;&#xC870;&#xAC74; VUE_APP_ &#xC774;&#xB77C;&#xB294; prefix &#xAC00; &#xC11C;&#xB450;&#xC5D0; &#xBD99;&#xC5B4;&#xC57C; &#xD55C;&#xB2E4;.</li>
+</ul>
+<hr>
+<h3 id="5-dart-sass-&#xC774;&#xC6A9;&#xC2DC;-customize-&#xB41C;-bootstrap-&#xC774;&#xC6A9;&#xC2DC;-&#xC624;&#xB958;--mathdiv-&#xACFC;-listslash-&#xB97C;-&#xBCC0;&#xACBD;&#xD574;&#xC90C;-">5. Dart-sass &#xC774;&#xC6A9;&#xC2DC; customize &#xB41C; bootstrap &#xC774;&#xC6A9;&#xC2DC; &#xC624;&#xB958; ( <code>math.div()</code> &#xACFC; <code>list.slash()</code> &#xB97C; &#xBCC0;&#xACBD;&#xD574;&#xC90C; )</h3>
+<pre><code>npm install -g sass-migrator
+</code></pre>
+<pre><code>sass-migrator division **/*.scss
+</code></pre>
+<hr>
+<h3 id="6-expected-indentation-of-2-spaces-but-found-4-indent-&#xB77C;&#xB294;-&#xC624;&#xB958;--indent-&#xC218;&#xC5D0;-&#xC758;&#xD574;-&#xD574;&#xB2F9;-&#xC22B;&#xC790;&#xB294;-&#xB2E4;&#xB97C;-&#xC218;-&#xC788;&#xB2E4;">6. expected indentation of 2 spaces but found 4. indent &#xB77C;&#xB294; &#xC624;&#xB958; ( indent &#xC218;&#xC5D0; &#xC758;&#xD574; &#xD574;&#xB2F9; &#xC22B;&#xC790;&#xB294; &#xB2E4;&#xB97C; &#xC218; &#xC788;&#xB2E4;.)</h3>
+<ul>
+<li>ESLint &#xC640; Prettier &#xC758; &#xD3EC;&#xB9F7;&#xD305;&#xC758; &#xCDA9;&#xB3CC;</li>
+<li>&#xC544;&#xB798;&#xC124;&#xCE58;</li>
+</ul>
+<pre><code>npm install --save-dev eslint-config-prettier
+</code></pre>
+<ul>
+<li>eslintrc.* &#xD30C;&#xC77C;&#xC758; extends &#xC601;&#xC5ED; array &#xAC12; &#xB9C8;&#xC9C0;&#xB9C9;&#xC5D0; &#x201C;prettier&#x201D; &#xC744; &#xCD94;&#xAC00;&#xD55C;&#xB2E4;.</li>
+</ul>
+<pre><code>module.exports = {
+......&#xC911;&#xB7B5; .......
+extends: [
+ ......&#xC911;&#xB7B5; .......
+&apos;prettier&apos; 
+]
+</code></pre>
+<hr>
+<h3 id="7-private-&#xC811;&#xADFC;-&#xAD8C;&#xD55C;-&#xD0A4;&#xC6CC;&#xB4DC;&#xB85C;-&#xBA54;&#xC11C;&#xB4DC;-&#xCF54;&#xB529;&#xC2DC;">7. private &#xC811;&#xADFC; &#xAD8C;&#xD55C; &#xD0A4;&#xC6CC;&#xB4DC;&#xB85C; &#xBA54;&#xC11C;&#xB4DC; &#xCF54;&#xB529;&#xC2DC;</h3>
+<ul>
+<li>&#xB9CC;&#xC57D; private &#xB85C; &#xBA54;&#xC11C;&#xB4DC;&#xB97C; &#xCF54;&#xB529;&#xC2DC; &#xC5D0;&#xB7EC; &#xBB3C;&#xACB0;&#xD45C;&#xC2DC;&#xAC00; &#xB41C;&#xB2E4;&#xBA74; &#xADF8;&#xAC83;&#xC740; dom &#xC5D0;&#xC11C; &#xC9C1;&#xC811; &#xC5F0;&#xACB0; &#xB418;&#xB294; &#xBA54;&#xC11C;&#xB4DC;&#xC774;&#xBA74;&#xC11C; &#xC778;&#xC790;&#xAC12;&#xC744; &#xC694;&#xAD6C;&#xD558;&#xB294; &#xACBD;&#xC6B0;&#xC77C;&#xB54C;
+&#xD574;&#xB2F9; &#xC811;&#xADFC; &#xAD8C;&#xD55C; &#xC5D0;&#xB7EC;&#xB97C; &#xBC1C;&#xC0DD;&#xC2DC;&#xD0A8;&#xB2E4;. &#xBE4C;&#xB4DC;&#xAC00; &#xC548;&#xB418;&#xB294; &#xAC83;&#xC740; &#xC544;&#xB2C8;&#xC9C0;&#xB9CC; warning &#xC744; &#xBA48;&#xCDA4;&#xBC29;&#xBC95;&#xC740; public &#xC73C;&#xB85C; &#xBC14;&#xAFB8;&#xB294; &#xAC70; &#xC678;&#xC5D4; &#xBC29;&#xBC95;&#xC774; &#xC5C6;&#xB2E4;.</li>
+</ul>
+<hr>
+<h3 id="8-&#xD14C;&#xC774;&#xBE14;-&#xCF54;&#xB529;-&#xD6C4;-&#xB370;&#xC774;&#xD130;-&#xBC14;&#xC778;&#xB529;-&#xBC29;&#xC2DD;">8. &#xD14C;&#xC774;&#xBE14; &#xCF54;&#xB529; &#xD6C4; &#xB370;&#xC774;&#xD130; &#xBC14;&#xC778;&#xB529; &#xBC29;&#xC2DD;~</h3>
+<ul>
+<li>&#xB9CC;&#xC57D;&#xC5D0; &#xD558;&#xC704;&#xB97C; &#xBB36;&#xB294; &#xAC1C;&#xB150;&#xC758; colspan &#xC131;&#xACA9;&#xC744; &#xB744;&#xB294; &#xAC83;&#xB4E4;&#xC740; </li>
+<li>&#xBB34;&#xC870;&#xAC74; &#xD2B8;&#xB9AC; &#xAD6C;&#xC870;&#xB85C; &#xB370;&#xC774;&#xD130;&#xAC00; &#xC791;&#xC5C5; &#xB418;&#xC5B4;&#xC57C; &#xD55C;&#xB2E4;. </li>
+<li>&#xBC31;&#xC5D4;&#xB4DC;&#xAC1C;&#xBC1C;&#xC790;&#xC5D0;&#xAC8C; menu:[ children:[ children:[] ]  ]; &#xBC29;&#xC2DD;&#xC73C;&#xB85C; &#xB370;&#xC774;&#xD130; &#xC804;&#xC1A1;&#xC744; &#xC694;&#xCCAD;.</li>
+<li>tree&#xC2DD;(&#xBD80;&#xBAA8;/&#xC790;&#xC2DD;&#xAD6C;&#xBD84;) &#xAD6C;&#xC870;&#xAC00; &#xC544;&#xB2C8;&#xACE0; &#xB2E8;&#xC21C; 1&#xC904;&#xC529; &#xBC30;&#xCE58;&#xB418;&#xB294; &#xB9AC;&#xC2A4;&#xD2B8; &#xD0C0;&#xC785;&#xC73C;&#xB85C; &#xB370;&#xC774;&#xD130;&#xB294; &#xAD6C;&#xC131;&#xB418;&#xC5B4; &#xC788;&#xB294; &#xACBD;&#xC6B0;
+&#xC989; &#xCCAB;&#xBC88;&#xC9F8; &#xD589; &#xBD80;&#xD130; rowspan &#xB098;&#xC628;&#xB2E4;&#xBA74; index=0 &#xC5D0;&#xC11C; rowspan &#xC73C;&#xB85C; &#xBC30;&#xCE58;&#xD558;&#xACE0; 
+rowspan &#xC5D0; &#xB300;&#xC785;&#xB418;&#xB294; &#xCEE8;&#xD150;&#xCE20; &#xB370;&#xC774;&#xD130;&#xB294; &#xB300;&#xCCB4;&#xC801;&#xC73C;&#xB85C; &#xB9AC;&#xC2A4;&#xD2B8; &#xB9E8; &#xB9C8;&#xC9C1;&#xB9C9; &#xB0B4;&#xC6A9;&#xC73C;&#xB85C; &#xB418;&#xC5B4; &#xC788;&#xAE30;&#xC5D0; 
+<code>{{data[data.length-1].&#xB0B4;&#xC6A9;}}</code> &#xACFC; &#xAC19;&#xC774; td &#xC548;&#xC5D0; &#xCC44;&#xC6CC;&#xC57C; &#xD560; &#xAC83;&#xC774;&#xB2E4;.</li>
+</ul>
+<h3 id="9-scss--&#xC0AC;&#xC6A9;&#xC2DC;---&#xC0AC;&#xC6A9;&#xAE08;&#xC9C0;">9. scss  &#xC0AC;&#xC6A9;&#xC2DC; &#x201C; &#x201C; &#xC0AC;&#xC6A9;&#xAE08;&#xC9C0;.</h3>
+<h2 id="&#xD504;&#xB85C;&#xC81D;&#xD2B8;&#xC5D0;&#xC11C;-tip">&#xD504;&#xB85C;&#xC81D;&#xD2B8;&#xC5D0;&#xC11C; tip</h2>
+<h3 id="1-git-mirror">1. git mirror</h3>
+<ol>
+<li> git mirroring, &#xC6D0;&#xBCF8; &#xC800;&#xC7A5;&#xC18C;(A)&#xC758; &#xB370;&#xC774;&#xD130;&#xB97C; &#xD074;&#xB860;&#xD55C;&#xB2E4;.</li>
+<li>Clone &#xD55C; &#xB85C;&#xCEEC; &#xC800;&#xC7A5;&#xC18C;&#xC5D0;&#xC11C; mirror &#xC635;&#xC158;&#xC744; &#xC0AC;&#xC6A9;&#xD574; &#xBCF5;&#xC0AC;&#xD560; &#xC6D0;&#xACA9; &#xC800;&#xC7A5;&#xC18C;(B)&#xB85C; Push</li>
+</ol>
+<pre><code>git clone --mirror [&#xC6D0;&#xBCF8; &#xC800;&#xC7A5;&#xC18C;(A) &#xC8FC;&#xC18C;] 
+git remote set-url --push origin [&#xC774;&#xB3D9;&#xD560; &#xC6D0;&#xACA9; &#xC800;&#xC7A5;&#xC18C;(B) &#xC8FC;&#xC18C;] 
+git push --mirror
+</code></pre>
+<ul>
+<li><p>&#xD604;&#xC7AC; remote &#xD655;&#xC778;&#xD558;&#xB294; &#xBC95; ( webstorm remote &#xB3C4; &#xCD94;&#xAC00;&#xD574;&#xC57C; &#xD568;.)
+<code>git remote -v</code></p>
+</li>
+<li><p>&#xAC1C;&#xBC1C; &#xC8FC;&#xC18C; : <code>https://bongcheol@bitbucket.org/inition-kiwoom/kiwoom_admin_front.git</code></p>
+</li>
+<li><p>&#xD504;&#xB860;&#xD2B8; &#xD300; &#xC8FC;&#xC18C; : <code>https://bongcheol@bitbucket.org/initioninc/kiwoom_admin.git</code></p>
+</li>
+</ul>
+<h4 id="2--vue-&#xD30C;&#xC77C;&#xC5D0;&#xC11C;-html&#xACFC;-ts-&#xBD84;&#xB9AC;&#xD558;&#xB294;-&#xBC95;">2.  ~.vue &#xD30C;&#xC77C;&#xC5D0;&#xC11C; html&#xACFC; ts &#xBD84;&#xB9AC;&#xD558;&#xB294; &#xBC95;</h4>
+<h5 id="a-vue-template-loader-&#xC124;&#xCE58;">a. vue-template-loader &#xC124;&#xCE58;</h5>
+<p><code>npm install --save-dev vue-template-loader</code></p>
+<h5 id="b-vueconfigjs-&#xC5D0;-&#xC544;&#xB798;-&#xCF54;&#xB4DC;-&#xCD94;&#xAC00;--configurewebpack-&#xC758;-&#xB0B4;&#xC6A9;-&#xCD94;&#xAC00;-">b. vue.config.js &#xC5D0; &#xC544;&#xB798; &#xCF54;&#xB4DC; &#xCD94;&#xAC00; ( configureWebpack &#xC758; &#xB0B4;&#xC6A9; &#xCD94;&#xAC00; )</h5>
+<pre><code>//vue.config.js
+module.exports={
+    configureWebpack:{
+         module:{
+         rules:[
+                {
+                    test:/.html$/,
+                    loader:&quot;vue-template-loader&quot;,
+                    exclude:/index.html/
+                },
+             ]
+         }
+    }
+}
+</code></pre>
+<h4 id="c-src-&#xD3F4;&#xB354;&#xC5D0;-shims-htmldts-&#xD30C;&#xC77C;-&#xCD94;&#xAC00;-&#xADF8;&#xB9AC;&#xACE0;-&#xC544;&#xB798;-&#xCF54;&#xB4DC;-&#xC785;&#xB825;">c. src &#xD3F4;&#xB354;&#xC5D0; <code>shims-html.d.ts</code> &#xD30C;&#xC77C; &#xCD94;&#xAC00; &#xADF8;&#xB9AC;&#xACE0; &#xC544;&#xB798; &#xCF54;&#xB4DC; &#xC785;&#xB825;</h4>
+<pre><code>declare module &apos;*.html&apos;{
+import Vue,{ ComponentOptions, FunctionalComponentOptions} from &apos;vue&apos;;
+interface WithRender{
+ &lt;V extends Vue, U extends ComponentOptions&lt;V&gt; | FunctionalComponentOptions&gt;(options: U, ): U;
+ &lt;V extends typeof Vue&gt;(component: V): V;
+}
+const withRender: WithRender;
+export default withRender;
+}
+</code></pre>
+<h4 id="d-&#xC2E4;&#xD589;-&#xC608;&#xC2DC;">d. &#xC2E4;&#xD589; &#xC608;&#xC2DC;</h4>
+<pre><code>import WithRender from &apos;./App.html&apos;;
+@WithRender
+@Component
+export default class App extends Vue { }
+</code></pre>
+<hr>
+<h3 id="2-json-server-&#xB97C;-&#xD1B5;&#xD55C;-mock-server-&#xB9CC;&#xB4E4;&#xAE30;">2. json-server &#xB97C; &#xD1B5;&#xD55C; Mock server &#xB9CC;&#xB4E4;&#xAE30;</h3>
+<h4 id="json-server-&#xAE00;&#xB85C;&#xBC8C;-&#xC124;&#xCE58;">json-server &#xAE00;&#xB85C;&#xBC8C; &#xC124;&#xCE58;</h4>
+<pre><code>npm install -g json-server
+</code></pre>
+<hr>
+<h3 id="3-v-slot-&#xC73C;&#xB85C;-&#xCEE4;&#xC2A4;&#xD140;-&#xD15C;&#xD50C;&#xB9BF;-&#xCF54;&#xB4DC;-&#xCD94;&#xAC00;&#xBC95;">3. v-slot &#xC73C;&#xB85C; &#xCEE4;&#xC2A4;&#xD140; &#xD15C;&#xD50C;&#xB9BF; &#xCF54;&#xB4DC; &#xCD94;&#xAC00;&#xBC95;</h3>
+<pre><code>//&#xC0BD;&#xC785;&#xD558;&#xB294; &#xC8FC;&#xCCB4; html &#xD30C;&#xC77C; &#xACBD;&#xC6B0; ( v-slot:listItem=&quot;{ item }&quot; &#xC911;&#xC694; &#xD0A4;&#xD3EC;&#xC778;&#xD2B8; / template &#xD0DC;&#xADF8;&#xC5D0;&#xC11C;&#xB9CC; &#xAC00;&#xB2A5; )
+&lt;template v-slot:listItem=&quot;{ item }&quot;&gt;
+    &lt;span class=&quot;d-inline-block mgl-10&quot;&gt;{{ item.name }}&lt;/span&gt;&lt;span class=&quot;d-inline-block mgl-10&quot;&gt;&amp;nbsp;|&amp;nbsp;&lt;/span&gt;
+    &lt;span class=&quot;d-inline-block mgl-10&quot;&gt;{{getGiftItemType( item.itemType )}}&lt;/span&gt;
+&lt;/template&gt;
+
+//vue component &#xACBD;&#xC6B0; (slot name=&quot;listItem&quot; / v-bind:item=&quot;item&quot;  &#xC774; &#xC911;&#xC694; &#xD0A4;&#xD3EC;&#xC778;&#xD2B8; / li  loop &#xC5D0;&#xC11C; &#xC120;&#xC5B8;&#xB41C; item &#xC744; &#xC0BD;&#xC785;&#xD558;&#xB294; &#xC8FC;&#xCCB4; &#xCABD;&#xC5D0;&#xC11C; &#xC4F8;&#xC218; &#xC788;&#xAC8C; &#xBC14;&#xC778;&#xB529; )
+// &#xC0BD;&#xC785;&#xD558;&#xB294; &#xCABD;&#xC5D0;&#xC11C; v-slot:listItem=&quot;{ item }&quot; &#xC774; &#xC5C6;&#xC744; &#xACBD;&#xC6B0; &#xC544;&#xB798; &#xAE30;&#xBCF8;&#xD615;&#xC774;&#xB77C;&#xB294; &#xC8FC;&#xC11D;&#xBD80;&#xBD84;&#xC774; &#xC2E4;&#xD589;&#xB41C;&#xB2E4;.
+&lt;li v-for=&quot;(item, index) in items&quot; :key=&quot;`${dropdownId}-${index}`&quot;&gt;
+  &lt;a href=&quot;&quot; class=&quot;value-txt&quot;&gt;
+    &lt;slot name=&quot;listItem&quot; v-bind:item=&quot;item&quot;&gt;
+      &lt;!-- &#xAE30;&#xBCF8;&#xD615;  --&gt;
+      &lt;span&gt;{{ item[txt] }}&lt;/span&gt;
+    &lt;/slot&gt;
+  &lt;/a&gt;
+&lt;/li&gt;
+</code></pre>
+<h3 id="4-thisroutemeta">4. this.$route.meta</h3>
+<ul>
+<li>$route.meta &#xB294; &#xD0C0;&#xC785;&#xC774; RouteMeta | undefined &#xC774;&#xAE30;&#xC5D0; &#xC870;&#xAC74;&#xBB38;&#xC73C;&#xB85C; undefined &#xCCB4;&#xD06C;&#xD574;&#xC57C; &#xD55C;&#xB2E4;.</li>
+</ul>
+<blockquote>
+<p>FullType.ts
+<code>const meta=this.$route.meta as RouteMeta;</code></p>
+</blockquote>
+<blockquote>
+<p>login.ts</p>
+</blockquote>
+<pre><code>export const LoginRoute=[
+    {
+        path: RouteURLManage.LOGIN,
+        name: &apos;login&apos;,
+        meta: { layout: &apos;full&apos;, renderClass: &apos;login&apos; },
+        beforeEnter: (to:Route, from:Route, next:NavigationGuardNext)=&gt;{
+            if (isUserLoggedIn()) {
+                return next( &apos;/&apos;);
+            }
+             next();
+        },
+        component: ()=&gt;import(&apos;@/views/login/LoginForm&apos;), //&#xB85C;&#xADF8;&#xC778; &#xB79C;&#xB529; &#xD398;&#xC774;&#xC9C0;
+    },
+];
+</code></pre>
+<hr>
+<h3 id="5-axios-&#xC0AC;&#xC6A9;&#xC2DC;-&#xCD08;&#xAE30;-&#xC124;&#xC815;-&#xC774;&#xD574;">5. axios &#xC0AC;&#xC6A9;&#xC2DC; &#xCD08;&#xAE30; &#xC124;&#xC815; &#xC774;&#xD574;</h3>
+<ul>
+<li>axios.create({baseURL:~~}) <blockquote>
+<p>const AuthAPI=axios.create({baseURL:&#x2019;http://<del>&#x2018;}) 
+const UserAPI=axios.create({baseURL:&#x2019;https://</del>&#x2018;}) 
+&#xC774; &#xBC29;&#xBC95;&#xC740; &#xC11C;&#xBC84;&#xB97C; &#xAD00;&#xC2EC;&#xC0AC;&#xC5D0; &#xB530;&#xB77C;&#xC11C; &#xBD84;&#xB9AC;&#xD558;&#xC5EC; &#xC124;&#xACC4;&#xD558;&#xB294; &#xB9C8;&#xC774;&#xD06C;&#xB85C;&#xC11C;&#xBE44;&#xC2A4; &#xC544;&#xD0A4;&#xD14D;&#xCC98;&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xACE0; &#xC788;&#xB294; &#xC560;&#xD50C;&#xB9AC;&#xCF00;&#xC774;&#xC158;&#xC5D0;&#xC11C; &#xC0AC;&#xC6A9;&#xD558;&#xAE30; &#xC801;&#xD569;&#xD55C; &#xAD6C;&#xC870;&#xC774;&#xB2E4;.</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h3 id="6-axios-&#xC0AC;&#xC6A9;&#xC2DC;-&#xD30C;&#xC77C;-&#xB2E4;&#xC6B4;&#xB85C;&#xB4DC;&#xC5D0;-&#xB300;&#xD55C;-&#xBD80;&#xBD84;-&#xB2E4;&#xB8F0;&#xC2DC;-tip">6. axios &#xC0AC;&#xC6A9;&#xC2DC; &#xD30C;&#xC77C; &#xB2E4;&#xC6B4;&#xB85C;&#xB4DC;&#xC5D0; &#xB300;&#xD55C; &#xBD80;&#xBD84; &#xB2E4;&#xB8F0;&#xC2DC; tip</h3>
+<pre><code> axios.(obj).then() ~ 
+//&#xC5EC;&#xAE30;&#xC11C; obj={ method, url, data, responseType:&apos;blob&apos;} &#xB77C;&#xACE0; &#xD560;&#xB54C; 
+// responseType:&apos;blob&apos; &#xC635;&#xC158;&#xC774; &#xBC18;&#xB4DC;&#xC2DC; &#xB4E4;&#xC5B4;&#xAC00;&#xC57C;&#xB9CC; &#xD55C;&#xB2E4;.
+</code></pre>
+<hr>
+<h3 id="7-get-&#xBA54;&#xC11C;&#xB4DC;-&#xC5C5;&#xB370;&#xC774;&#xD2B8;">7. get &#xBA54;&#xC11C;&#xB4DC; &#xC5C5;&#xB370;&#xC774;&#xD2B8;</h3>
+<ul>
+<li>&#xC774;&#xBCA4;&#xD2B8; &#xC6B4;&#xC601; &#xC911;&#xC778; &#xCE74;&#xC6B4;&#xD2B8; query &#xC989; eventStatusType=C02 &#xCFFC;&#xB9AC;&#xAC12;&#xC744; &#xC2E4;&#xC5B4;&#xC11C; &#xC804;&#xC1A1; &#xBC0F; &#xACB0;&#xACFC;&#xAC12;&#xC73C;&#xB85C; &#xBAA8;&#xB378; &#xAC12; &#xC5C5;&#xB370;&#xC774;&#xD2B8; &#x2013;&gt; set &#xBA54;&#xC11C;&#xB4DC;&#xB864; &#xC5C5;&#xB370;&#xC774;&#xD2B8; </li>
+</ul>
+<blockquote>
+<p>GeneralEventList.ts</p>
+</blockquote>
+<pre><code>//&#xC6B4;&#xC601; &#xC911;( &#xC9C4;&#xD589;&#xC911; &#xC0C1;&#xD0DC; )&#xC778; &#xCE74;&#xC6B4;&#xD2B8; &#xAC00;&#xC838;&#xC624;&#xAE30;
+    public fetchToPublishCount() {
+        EventService.getEventList( { eventStatusType: DataProviderType.EVENT_STEP2 } )
+            .then( (data)=&gt;{
+                this.publishCount=data.contentCount;
+                // console.log( this.publishCount );
+            } )
+            .catch((error: any) =&gt; {
+                console.log(error);
+            });
+    }
+</code></pre>
+<hr>
+<h3 id="8-&#xB77C;&#xC6B0;&#xD130;-&#xD6C5;&#xC740;-&#xBCC4;&#xB3C4;&#xB85C;-&#xD638;&#xCD9C;&#xD574;&#xC57C;-&#xD55C;&#xB2E4;">8. &#xB77C;&#xC6B0;&#xD130; &#xD6C5;&#xC740; &#xBCC4;&#xB3C4;&#xB85C; &#xD638;&#xCD9C;&#xD574;&#xC57C; &#xD55C;&#xB2E4;.</h3>
+<blockquote>
+<p>FaqList.ts</p>
+</blockquote>
+<pre><code>Component.registerHooks( [
+    &apos;beforeRouteLeave&apos;,
+    &apos;beforeRouteEnter&apos;,
+    &apos;beforeRouteUpdate&apos;,
+] );
+</code></pre>
+<hr>
+<h3 id="9-&#xB3D9;&#xC801;-&#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;-&#xC124;&#xC815;">9. &#xB3D9;&#xC801; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC124;&#xC815;</h3>
+<blockquote>
+<p>App.html</p>
+</blockquote>
+<pre><code>// layout &#xBC14;&#xC778;&#xB529; &#xB418;&#xC5B4; &#xC788;&#xB294; &#xBD80;&#xBD84;&#xC740; &#xC544;&#xB798; App.ts &#xC5D0;&#xC11C; &#xBCFC; &#xC218; &#xC788;&#xB4EF;&#xC774; get method &#xB85C; &#xBC14;&#xC778;&#xB529; &#xB418;&#xC5B4; &#xC788;&#xC9C0;&#xB9CC; 
+// &#xACB0;&#xAD6D; &#xCF00;&#xBC25; &#xCF00;&#xC774;&#xC2A4;&#xB85C; &#xC785;&#xB825;&#xB418;&#xB294; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC774;&#xB984;&#xC744; &#xC758;&#xBBF8;&#xD55C;&#xB2E4;. 
+&lt;component :is=&quot;layout&quot;&gt;&lt;/component&gt;
+</code></pre>
+<blockquote>
+<p>App.ts</p>
+</blockquote>
+<pre><code>get layout() {
+    const meta=this.$route.meta as RouteMeta;
+    if (meta !== undefined) {
+        if (meta.layout === &apos;full&apos;) {
+            return &apos;full-type&apos;;
+        }
+    }
+    return &apos;side-type&apos;;
+}
+</code></pre>
+<hr>
+<h3 id="10-&#xB370;&#xC774;&#xD130;-&#xAC1D;&#xCCB4;-swap-&#xC2DC;&#xD0A4;&#xAE30;">10. &#xB370;&#xC774;&#xD130; &#xAC1D;&#xCCB4; swap &#xC2DC;&#xD0A4;&#xAE30;</h3>
+<pre><code>//&#xCD08;&#xAE30;&#xC5D0; &#xC22B;&#xC790;&#xAC12; &#xCD08;&#xAE30;&#xD654;&#xC2DC;&#xCF1C;&#xB460;.
+this.numItems=this.bannerList.map( (item, idx)=&gt;{
+    return {
+        txt: String( idx+1 ),
+        val: idx+1,
+        bannerSeq: item.bannerSeq
+    };
+} );
+
+//&lt;select-box @change=&quot;onNumSortChange&quot;&gt; &#xC5D0;&#xC11C; onNumSortChange &#xD638;&#xCD9C; 
+public onNumSortChange(value: string | number | boolean, seq: number) {
+    //&#xC608;&#xB97C; &#xB4E4;&#xC5B4; 1&#xBC88;&#xC5D0;&#xC11C; 4&#xBC88;&#xC73C;&#xB85C; &#xAD50;&#xCCB4; &#xD55C;&#xB2E4; &#xD588;&#xC744; &#xB54C; &#xC989; 1,2,3,4 --&gt; 4,3,2, 1&#xB85C; swap &#xD558;&#xB294; &#xAC8C; &#xD544;&#xC694;~
+    //&#xC9C0;&#xAE08; &#xD604;&#xC7AC; &#xC120;&#xD0DD;&#xD55C; selectbox &#xC758; &#xC778;&#xB371;&#xC2A4; &#xAD6C;&#xD558;&#xAE30; ( &#xC774;&#xBD80;&#xBD84;&#xC774; 1&#xBC88;&#xC5D0; &#xD574;&#xB2F9;  )
+    const cIdx=this.numItems.findIndex( (item)=&gt;item.bannerSeq === seq );
+    //&#xC120;&#xD0DD;&#xB41C; selectbox &#xC758; &#xAC12;&#xC73C;&#xB85C; &#xC778;&#xD574; &#xAD50;&#xCCB4; selectbox &#xC778;&#xB371;&#xC2A4; &#xAD6C;&#xD558;&#xAE30; ( &#xC774;&#xBD80;&#xBD84;&#xC774; 4&#xBC88;&#xC5D0; &#xD574;&#xB2F9;  )
+    const pIdx=this.numItems.findIndex( (item)=&gt; item.val === Number(value) );
+
+    //[A, B]=[B, A] ---&gt; &#xAC1D;&#xCCB4;&#xAD6C;&#xC870;&#xBD84;&#xD574;&#xD560;&#xB2F9; ( destructuring )
+    [this.numItems[pIdx], this.numItems[cIdx]]=[this.numItems[cIdx], this.numItems[pIdx]];
+    //&#xBAA8;&#xB378; &#xAC31;&#xC2E0;&#xC744; &#xC54C;&#xB9BC;&#xC744; &#xC704;&#xD55C; &#xBA54;&#xC18C;&#xB4DC; &#xD638;&#xCD9C;
+    this.numItems.push();
+}
+</code></pre>
+<hr>
+<h3 id="11-&#xBAA8;&#xB378;-&#xAC1D;&#xCCB4;-&#xBE44;&#xAD50;&#xD558;&#xAE30;">11. &#xBAA8;&#xB378; &#xAC1D;&#xCCB4; &#xBE44;&#xAD50;&#xD558;&#xAE30;</h3>
+<blockquote>
+<p>FaqDetail.ts </p>
+</blockquote>
+<blockquote>
+<p>Watch &#xC635;&#xC158;
+@Watch( &#x2018;pointPolicy&#x2019; , { immediate: true, deep: true }) <br></p>
+<ul>
+<li>immediate: true &#xC744; &#xCD94;&#xAC00;&#xD558;&#xBA74; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xAC00; &#xC0DD;&#xC131;&#xB418;&#xC790;&#xB9C8;&#xC790; &#xC989;&#xC2DC; &#xC2E4;&#xD589;&#xB41C;&#xB2E4;.</li>
+<li> deep: true &#xC744; &#xCD94;&#xAC00;&#xD558;&#xBA74; data&#xAC00; object &#xC77C; &#xACBD;&#xC6B0;&#x3001;nested &#xD55C; &#xAC12;&#xC774; &#xBCC0;&#xACBD;&#xB420;&#xB54C;&#xB3C4; &#xAC10;&#xC9C0;&#xB418;&#xAC8C;&#xB054; &#xD574;&#xC900;&#xB2E4;.</li>
+</ul>
+</blockquote>
+<pre><code>@Watch( &apos;faqFormData&apos;, {deep: true})
+private onFaqFormCheck( values: any, oldValue: any ) {
+    const {content, faqType, publishYN, title}=this.faqDetailForm;
+    const oriData={content, faqType, publishYN, title};
+    const oriItem=Object.values( oriData );
+    const valueItems =Object.values( values );
+    //&#xC5EC;&#xB7EC; &#xAC1D;&#xCCB4;&#xB97C; &#xB2F4;&#xC740; &#xBC30;&#xC5F4;&#xC744; watch &#xB0B4;&#xC5D0;&#xC11C; value, old &#xAC12;&#xC774; &#xB2E4;&#xB978;&#xC9C0; &#xBE44;&#xAD50;&#xB97C; &#xD560; &#xC218; &#xC5C6;&#xB2E4;.
+    this.isModified=JSON.stringify( oriItem ) === JSON.stringify( valueItems );
+}
+</code></pre>
+<h3 id="11-tsconfigjson-&#xC124;&#xC815;-&#xD30C;&#xC77C;-&#xC18D;&#xC131;">11 tsconfig.json &#xC124;&#xC815; &#xD30C;&#xC77C; &#xC18D;&#xC131;</h3>
+<p><strong>files</strong></p>
+<p>-&#xCEF4;&#xD30C;&#xC77C;&#xD560; &#xD30C;&#xC77C;&#xB4E4;&#xC744; &#xC9C0;&#xC815;&#xD558;&#xB294; &#xC635;&#xC158;</p>
+<pre><code>{
+&quot;files&quot;: [&quot;app.ts&quot;, &quot;./practice/test.ts&quot;]
+}
+</code></pre>
+<p><strong>include</strong></p>
+<ul>
+<li>files&#xC640; &#xB2EC;&#xB9AC; &#xCEF4;&#xD30C;&#xC77C;&#xD560; &#xD30C;&#xC77C;&#xC744; &#xC9C0;&#xC815;&#xD558;&#xB294; &#xAC83;&#xC774; &#xC544;&#xB2CC; &#xB514;&#xB809;&#xD1A0;&#xB9AC;&#xB97C; &#xC9C0;&#xC815;</li>
+<li>&#xD0C0;&#xC785;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8;&#xB294; &#xAE30;&#xBCF8;&#xC801;&#xC73C;&#xB85C; node_modules&#xB97C; &#xC81C;&#xC678;&#xD558;&#xC9C0;&#xB9CC; &#xC368;&#xB4DC; &#xD30C;&#xD2F0; &#xB77C;&#xC774;&#xBE0C;&#xB7EC;&#xB9AC;&#xC758; &#xD0C0;&#xC785;&#xC744; &#xC815;&#xC758;&#xD574;&#xB193;&#xB294; @types &#xB514;&#xB809;&#xD1A0;&#xB9AC;&#xB294; &#xCEF4;&#xD30C;&#xC77C;&#xC5D0; &#xD3EC;&#xD568;&#xD568;</li>
+<li>&#xC640;&#xC77C;&#xB4DC; &#xCE74;&#xB4DC; &#xD328;&#xD134;</li>
+</ul>
+<ul>
+<li><pre><code>    *: &#xD574;&#xB2F9; &#xB514;&#xB809;&#xD1A0;&#xB9AC;&#xC758; &#xBAA8;&#xB4E0; &#xD30C;&#xC77C;&#xC744; &#xAC80;&#xC0C9;
+</code></pre>
+</li>
+<li><pre><code>    **: &#xD558;&#xC704; &#xB514;&#xB809;&#xD1A0;&#xB9AC;&#xB97C; &#xC7AC;&#xADC0;&#xC801;&#xC73C;&#xB85C; &#xC811;&#xADFC;
+</code></pre>
+</li>
+<li><pre><code>    ?: &#xD574;&#xB2F9; &#xB514;&#xB809;&#xD1A0;&#xB9AC;&#xC548;&#xC5D0; &#xD30C;&#xC77C;&#xC758; &#xC774;&#xB984; &#xC911; &#xD0A4;&#xC6CC;&#xB4DC;&#xB97C; &#xD3EC;&#xD568;&#xD558;&#xB294; &#xD30C;&#xC77C; &#xAC80;&#xC0C9;
+</code></pre>
+</li>
+</ul>
+<pre><code>{
+&quot;include&quot;: [&quot;src/**/*&quot;]
+}
+</code></pre>
+<p><strong>exclude</strong></p>
+<ul>
+<li>include&#xC640; &#xBC18;&#xB300;&#xB85C; &#xCEF4;&#xD30C;&#xC77C; &#xC81C;&#xC678;&#xD560; &#xB514;&#xB809;&#xD1A0;&#xB9AC;&#xB97C; &#xC9C0;&#xC815;</li>
+</ul>
+<pre><code>{
+&quot;exclude&quot;: [&quot;node_modules&quot;]
+}
+</code></pre>
+<p><strong>extends</strong></p>
+<ul>
+<li>&#xD2B9;&#xC815; &#xD0C0;&#xC785;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xC124;&#xC815; &#xD30C;&#xC77C;&#xC5D0;&#xC11C; &#xB2E4;&#xB978; &#xD0C0;&#xC785;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xC124;&#xC815;&#xC744; &#xAC00;&#xC838;&#xC640; &#xCD94;&#xAC00;&#xD560; &#xC218; &#xC788;&#xB294; &#xC635;&#xC158;</li>
+<li>&#xC624;&#xBC84;&#xB77C;&#xC774;&#xB4DC; &#xAC00;&#xB2A5;</li>
+</ul>
+<pre><code>// config/bash.json
+{
+&quot;compilerOptions&quot;: {
+ &quot;noImplicitAny&quot;: true
+}
+}
+
+// tsconfig.json
+{
+&quot;extends&quot;: &quot;./config/base.json&quot;
+}
+</code></pre>
+<p><strong>target</strong></p>
+<ul>
+<li>&#xD0C0;&#xC785;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xD30C;&#xC77C;&#xC744; &#xCEF4;&#xD30C;&#xC77C; &#xD588;&#xC744; &#xB54C; &#xBE4C;&#xB4DC; &#xB514;&#xB809;&#xD1A0;&#xB9AC;&#xC5D0; &#xC0DD;&#xC131;&#xB418;&#xB294; &#xC790;&#xBC14;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8;&#xC758; &#xBC84;&#xC804; &#xBA85;&#xC2DC;<pre><code>{
+&quot;target&quot;: &quot;esnext&quot;
+}
+</code></pre>
+</li>
+</ul>
+<p><strong>lib</strong></p>
+<ul>
+<li>&#xD0C0;&#xC785;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xD30C;&#xC77C;&#xC744; &#xC790;&#xBC14;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xD30C;&#xC77C;&#xB85C; &#xCEF4;&#xD30C;&#xC77C; &#xD560; &#xB54C; &#xD3EC;&#xD568;&#xB420; &#xB77C;&#xC774;&#xBE0C;&#xB7EC;&#xB9AC; &#xBAA9;&#xB85D;</li>
+<li>&#xB300;&#xD45C;&#xC801;&#xC73C;&#xB85C; Promise&#xAC1D;&#xCCB4;, dom&#xAD00;&#xB828; &#xC18D;&#xC131;&#xC744; &#xC778;&#xC2DD;&#xD560; &#xC218; &#xC788;&#xB294; esnext, dom, dom.iterable &#xC0AC;&#xC6A9;<pre><code>{
+&quot;lib&quot;: [&quot;es2015&quot;, &quot;dom&quot;, &quot;dom.iterable&quot;]
+}
+</code></pre>
+</li>
+</ul>
+<p><strong>allowJs</strong></p>
+<ul>
+<li>&#xD0C0;&#xC785;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xCEF4;&#xD30C;&#xC77C; &#xC791;&#xC5C5;&#xC744; &#xC9C4;&#xD589;&#xD560; &#xB54C; &#xC790;&#xBC14;&#xC2A4;&#xD06C;&#xB9BD;&#xD2B8; &#xD30C;&#xC77C;&#xC758; &#xD3EC;&#xD568; &#xC5EC;&#xBD80;&#xB97C; &#xC124;&#xC815;&#xD558;&#xB294; &#xC635;&#xC158;</li>
+</ul>
+<hr>
+<h3 id="12-scss--&#xC5D0;&#xC11C;--">12. scss  &#xC5D0;&#xC11C;  ~@</h3>
+<ul>
+<li>@ &#xB294; /src &#xACBD;&#xB85C;&#xB97C; &#xC758;&#xBBF8; </li>
+<li>~ &#xBB3C;&#xACB0;(tilde) &#xB294; scss &#xC5D0;&#xC11C; alias(&#xBCC4;&#xCE6D;)&#xC744; &#xC0AC;&#xC6A9;&#xD558;&#xAE30; &#xC704;&#xD55C; prefix <blockquote>
+<p>font.scss</p>
+</blockquote>
+<pre><code>@font-face {
+font-family: &apos;NotoSansKR&apos;;
+font-style: normal;
+font-weight: 300;
+src: url(~@/assets/fonts/NotoSansKR-Light-Hestia.eot),
+url(~@/assets/fonts/NotoSansKR-Light-Hestia.eot?#iefix) format(&apos;embedded-opentype&apos;),
+url(~@/assets/fonts/NotoSansKR-Light-Hestia.woff) format(&apos;woff&apos;),
+url(~@/assets/fonts/NotoSansKR-Light-Hestia.otf) format(&apos;opentype&apos;);
+}
+</code></pre>
+</li>
+</ul>
+<h3 id="13-css-&#xD6A8;&#xACFC;">13. css &#xD6A8;&#xACFC;</h3>
+<blockquote>
+<p>_reset.scss </p>
+</blockquote>
+<pre><code>//&#xC2A4;&#xD06C;&#xB864; &#xBD80;&#xB4DC;&#xB7FD;&#xAC8C; &#xCC98;&#xB9AC;.
+scroll-behavior: smooth;
+</code></pre>
+<blockquote>
+<p>_reset.scss </p>
+</blockquote>
+<pre><code>//&#xC0AC;&#xC6A9;&#xC790;&#xAC00; &#xD0C0;&#xAC9F;&#xC744; &#xD130;&#xCE58;&#xD558;&#xAC70;&#xB098; &#xAFB9; &#xB204;&#xB974;&#xB294; &#xACBD;&#xC6B0;(&#xB871;&#xD130;&#xCE58;) &#xBCF4;&#xC5EC;&#xC9C0;&#xB294; &#xAE30;&#xBCF8; ui&#xB97C; &#xC81C;&#xC5B4;&#xD558;&#xB294; &#xC18D;&#xC131;&#xC774;&#xB2E4;. &#xBE44;&#xD45C;&#xC900;&#xC774;&#xBA70; iOS&#xC5D0;&#xC11C; &#xD130;&#xCE58; &#xB3D9;&#xC791;&#xC744; &#xB9C9;&#xACE0; &#xC2F6;&#xC744; &#xB54C; &#xC0AC;&#xC6A9;&#xD560; &#xC218; &#xC788;&#xB2E4;.
+-webkit-touch-callout: none;
+</code></pre>
+</div>
+<div class="btn-top"><a href="#topMove"><span class="blind">&#xC704;&#xB85C;&#xAC00;&#xAE30;</span></a></div>
+<script>
+  let percentItems=[];
+  let completeItems=[];
+  let deleteItems=[];
+  let totalValue=0;
+  let doc = document;
+  
+    function getDocHeight() {
+        return Math.max(
+            doc.body.scrollHeight, doc.documentElement.scrollHeight,
+            doc.body.offsetHeight, doc.documentElement.offsetHeight,
+            doc.body.clientHeight, doc.documentElement.clientHeight
+        );
+     }
+    function getWindowHeight() {
+        return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    }
+  let timer = setTimeout(function () {
+        clearTimeout(timer);
+        $('table a').attr('target', '_blank');
+        let i=0;
+        let titleMenus=$('h2');
+        let len=titleMenus.length;
+        let result='<div style="position:fixed;left:0;top:0;width: 300px;height: 100vh;color: #fff;background: linear-gradient(0deg,#5768f3,#1c45ef);"><p style="margin-top:177px;padding: 0 20px;font-size:30px;">바로가기 메뉴</p>';
+        for(i=0;i<len;i++){
+           result+= '<a class="btn-shortcut" href="#'+titleMenus.eq(i).attr('id')+'" data-index="'+i+'" >'+titleMenus.eq(i).text()+'</a>';
+        }
+        result+='</div>';
+        titleMenus.eq(0).before(result);
+        $('.btn-top').on('click', function(e) {
+          $('html,body').stop().animate({scrollTop:0}, 700 );
+        });
+        let taskTable=$('#task-list').next();
+        let percentEle=taskTable.find('td:last-child');
+        let perTxt=percentEle.text();
+        let oldScrollNum=-1;
+        let scrollSpyBtnItems=$('.btn-shortcut');
+        
+        taskTable.find('del').closest('tr').each(function(i, item){
+            $(this).addClass('del-status')
+        });
+        scrollSpyBtnItems.on('click', function(e){
+            // e.preventDefault();
+             let scrollIdx = $(this).attr('href');
+             let offsetY=$(scrollIdx).offset().top;
+             $('html, body').stop().animate({scrollTop:offsetY}, 350 );
+             
+            activeMenus( parseInt( $(this).attr('data-index')) );
+        });
+         scrollSpyBtnItems.on('mouseenter', function(e){
+            $(window).off('scroll.body-scroll');
+        });
+        scrollSpyBtnItems.on('mouseleave', function(e){
+            $(window).on('scroll.body-scroll', updateScrollSpy );
+        });
+        function activeMenus(idx){
+            if( oldScrollNum===idx ){ return; }
+            scrollSpyBtnItems.eq(idx).addClass('active').siblings().removeClass('active');
+            oldScrollNum=idx;
+        }
+      
+        let maxScroll= getDocHeight() - getWindowHeight();
+        
+        function updateScrollSpy(){
+            let scrollTop=$(this).scrollTop();
+            
+            scrollSpyBtnItems.each(function(i, item){
+                let scrollIdx = $(this).attr('href');
+                let offsetY=$(scrollIdx).offset().top;
+                let th=$(scrollIdx).outerHeight(true);
+                //
+                if(scrollTop>=offsetY && scrollTop<offsetY+th ){
+                     activeMenus( i );
+                }else{
+                    if( maxScroll <= scrollTop ){
+                        activeMenus( scrollSpyBtnItems.length-1 );
+                    }
+                }
+            });
+        }
+        $(window).on('scroll.body-scroll', updateScrollSpy);
+        activeMenus( 0 );
+        
+        
+        percentEle.each(function(i, item){
+            let value=parseFloat( ( $(item).text() ).split('%').join('') );
+            
+            if( !isNaN( value ) ){
+                if( value === 100 ){
+                    completeItems.push( value );
+                }
+                percentItems.push( value );
+            }else{
+                deleteItems.push( value );
+            }
+            // console.log('isNaN', isNaN( value ), value )
+            // console.log(value, '::cell n=', i)
+        });
+        for(i=0;i<percentItems.length;i++){
+            totalValue+=parseInt( percentItems[i] );
+        }
+        let average=( Number( totalValue/percentItems.length) ).toFixed(3);
+        // console.log( average, totalValue, percentItems.length )
+        taskTable.after('<table class="aver-table"><thead><tr><th>총페이지수</th><th>작업된 페이지수</th><th>삭제 및 중단 페이지</th><th>진행률(%)</th></tr></thead><tbody><tr><td>'+percentItems.length+'</td><td>'+completeItems.length+'</td><td>'+deleteItems.length+'</td><td>'+average+'(%) </td></tr></tbody></table>');
+
+        }, 450 );//end setTimeout
+</script>
+</body>
+</html>

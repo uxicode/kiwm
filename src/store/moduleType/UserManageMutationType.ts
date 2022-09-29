@@ -1,0 +1,12 @@
+enum UserMgMutationType {
+    SET_LIST='SET_LIST',
+    USER_TOTAL='USER_TOTAL',
+    USER_PAGE_SIZE='USER_PAGE_SIZE',
+    USER_PAGE_END='USER_PAGE_END',
+    UPDATE_LIST='UPDATE_LIST',
+    SET_FILTER='SET_FILTER',
+    RESET_FILTER='RESET_FILTER',
+    IS_FILTER='IS_FILTER'
+}
+
+export { UserMgMutationType };

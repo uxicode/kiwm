@@ -1,0 +1,350 @@
+@import "var";
+
+$fixTabMenuDepth: 11;
+
+/*sub page container*/
+$asideW: 198px;
+$marginLeft: 0;
+$gapX: $asideW + $marginLeft;
+
+#skip {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+
+  a {
+    overflow: hidden;
+    display: block;
+    height: 1px;
+    width: 1px;
+    margin-top: -1px;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  a:focus, a:active {
+    width: auto;
+    height: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f47322;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+  }
+}
+
+header {
+  width: 100%;
+  z-index: 100;
+}
+
+
+nav {
+  position: relative;
+}
+
+aside {
+  z-index: 210;
+  position: fixed;
+  top: 60px;
+  left: $marginLeft;
+  width: $asideW;
+  height: 100vh;
+
+  + .sub-container {
+    margin: 80px 0 0 $gapX;
+  }
+}
+
+.header-container{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 58px;
+  background-color: #64646e;
+  text-align: center;
+  //background-image: url("../images/common/mws-header-bg.png");
+  background-repeat: repeat-x;
+  border-bottom: 4px solid;
+  z-index: 10;
+  box-shadow: 0 2px 2px rgb(0 0 0 / 35%);
+  left: 0;
+  right: 0;
+  border-color: #eff2d3;
+}
+
+
+
+/*gnb*/
+#gnb {
+  position: relative;
+
+  .gnb-btn {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 0;
+    color: #fff;
+    padding: 7px 12px;
+  }
+}
+
+/* ================= header custom ================= */
+// ksj
+/* start: header-navbar */
+.header-navbar{
+  width: calc(100vw - 328px);
+  min-width: 1352px !important; // 1680 - (sidemenu + contents 좌우 padding)
+  max-width: 1592px !important; // 1920 - (sidemenu + contents 좌우 padding)
+  font-family: "NotoSansKR", sans-serif !important;
+  @include pos-abs($left: 304px, $top: 30px);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
+  background-color: #fff;
+}
+
+// cye
+.header-navbar .navbar-container {
+  padding: 0;
+}
+
+.aside-header {
+  width: 280px;
+  position: relative;
+  padding: 2.35rem 1rem 3.3rem 1.64rem;
+  transition: 300ms ease all, background 0s;
+  background: #262731;
+}
+
+
+/* 키움로고 */
+.logo {
+  .img-cnt {
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+    > img {
+      width: 100%
+    }
+  }
+
+  .logo-tit {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    vertical-align: top;
+    padding-top: 5px;
+  }
+
+  > strong {
+    vertical-align: middle;
+    padding-left: 7px;
+  }
+}
+
+
+//jbc
+.bookmark-wrapper{
+  margin-top:4px;
+}
+
+
+.bookmark-icons .nav-item {
+  text-align: center;
+  font-size: 12px;
+  margin-right: 30px; //jbc
+
+  &:first-child {margin-left: 21px;}
+
+  .nav-link {
+    position: relative;
+
+    .tit {
+      display: block;
+      //padding-top: 3px;  //jbc
+    }
+
+    .badge {
+      @include pos-abs($left: 50%, $top: -6px, $zIndex: 1);
+      font-size: 10px !important;
+      padding:0.23rem 0.3rem; //jbc
+      min-width: auto;
+      height: 17px;
+
+      &.bg-info {
+        width: 36px;
+        border-radius: 45px;
+      }
+      &.bg-danger {
+        width: 17px;
+        border-radius: 50%;
+      }
+    }
+
+    i {
+      //jbc
+      font-size: 24px;
+      vertical-align: middle;
+      color: #4a4646;
+      font-weight: 300;
+    }
+  }
+}
+
+a.dropdown-user-link {
+  display: flex;
+  flex-direction:row;
+  padding-right: 20px !important;
+
+  .user-name {
+    display:block;
+    margin-bottom: 0 !important;
+  }
+  .icon-chevron-down {
+    align-self: center;  //jbc
+    font-size: 16px;
+  }
+  //jbc
+  .user-status{
+    display:block;
+    margin-top: 3px;
+    text-align: right;
+    font-size: 11px;
+    font-weight: 300;
+  }
+
+}
+
+.user-menu {
+  @include pos-abs($right: 0, $top: 48px);
+  padding: 10px 0;
+  width: 200px;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.14);
+  background: #fff;
+
+  li {
+
+    a {
+      display: block;
+      padding: 10px 0 10px 22px;
+    }
+
+    i {
+      font-size: 20px;
+      vertical-align: text-top;//jbc
+    }
+    .item {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 14px; //jbc
+      font-weight: bold;//jbc
+      color: #6e6b7b;//jbc
+    }
+  }
+}
+/* end: header-navbar */
+
+
+
+/* start: aside-menu */
+.aside-content {
+  .navigation {
+    padding-top: 10px;
+    margin: 0 22px;
+
+    li a i {
+      height: 20px;
+      width: 20px;
+      font-size: 20px;
+      text-align: center;
+      margin-right: 14px;
+      opacity: 0.4;
+      vertical-align: middle;
+    }
+  }
+  .aside-tit {
+    color: #ffffff;
+    font-size: 13px;
+    vertical-align: bottom;
+  }
+}
+
+
+.aside-menu.menu-dark .navigation li a {
+  width: 100%;
+  color: #d0d0d0;
+  padding: 6px 13px;
+  line-height: 1.45;
+}
+
+.nav-item-tit {
+  padding: 20px 0 5px 0;
+  margin: 0 14px;
+  color: #72747f;
+  font-size: 11px;
+}
+
+.nav-item {
+  ul > li {
+    >a{
+      position: relative;
+      transition: all .5s ease;
+      &:after {
+        content: '';
+        @include pos-abs($top: 0, $left: 0);
+        width:100%;
+        height:34px;
+      border-radius: 4px;
+      background: #7e72f2;
+        transform-origin: 0 50%;
+        opacity: 0;
+        transform: scaleX(0);
+        transition: all .5s ease;
+        z-index: -1;
+      }
+    }
+    &.active {
+      //jbc
+      //border-radius: 4px;
+      //background: #7e72f2;
+      >a{
+        margin-left:3px;
+      }
+      >a:after{  //jbc
+        opacity:1;
+        transform: scaleX(1);
+      }
+      >a> i {
+        color: #ffffff;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* 대시보드 main-tit */
+.aside-main-tit .aside-tit {
+  vertical-align: text-top;
+  font-size: 16px;
+}
+
+.more-btn > i{color: #ffffff; opacity: 1!important;}
+
+
+
+/* end: aside-menu */
+
+
+/* ===================== nav-pills custom ===================== */
+.nav-pills .nav-link {
+  padding: 0.86rem 1.5rem;
+  min-width: 97px;
+}
+

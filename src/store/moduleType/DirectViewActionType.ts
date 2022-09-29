@@ -1,0 +1,6 @@
+enum DirectViewActionType {
+  VICTORY_LIST='VICTORY_LIST',
+  CHECKIN_LIST='CHECKIN_LIST',
+  CHECKIN_DETAIL_VIEW='CHECKIN_DETAIL_VIEW',
+}
+export { DirectViewActionType };

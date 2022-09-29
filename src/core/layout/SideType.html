@@ -1,0 +1,25 @@
+<div class="wrapper">
+
+  <router-view name="header"></router-view>
+
+  <div class="container">
+    <side-bar @click="onSideMenuClick" :menu-items="menuItems"></side-bar>
+
+    <div class="contents-wrap">
+
+      <!-- start: 컨텐츠 부분 -->
+      <transition name="zoom-fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
+      <!-- end: 컨텐츠 부분 -->
+
+    </div>
+  </div>
+  <!--start : 공통 확인팝업 -->
+  <notice-popup :msg="modalMsg"
+                :is-open="isNoticePopup"
+                @confirm="onNoticePopupClick"
+                @change="isNoticePopup=false"></notice-popup>
+  <!--end : 공통 확인팝업 -->
+  <slot></slot>
+</div>
