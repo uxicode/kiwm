@@ -56,8 +56,6 @@ npm run build
 npm run prod
 ```
 
-### - api server URL
-- https://smartstadiumadmin.heroesbaseball.co.kr/api
 
 -------------
 
