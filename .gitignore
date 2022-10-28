@@ -24,7 +24,7 @@ pnpm-debug.log*
 docs.html
 
 # markup ignore files
-/markup/assets/css
+/markup
 *.css.map
 
 # src ignore files
